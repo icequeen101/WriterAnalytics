@@ -18,13 +18,22 @@ def print_hi(name):
     print(result2)
 
     # Cleaning text and lower casing all words
-    for char in ',.!?-–\n':  # TO DO: ;;""''
+    for char in '“”‘,.!?-–\n':  # TO DO: ;;""''
         result = result.replace(char, ' ')
+
+    for char in '“':  # TO DO: ;;""''
+        result = result.replace('"', "")
+
     result = result.lower()
 
     # split returns a list of words delimited by sequences of whitespace (including tabs, newlines, etc, like re's \s)
     word_list = result.split()
     print(word_list)
+
+    a_string = '"ab"cd"'
+
+    stripped_string = a_string.strip('"')
+    print("Test", stripped_string)
 
     from collections import Counter
     Counter(word_list).most_common()
@@ -33,6 +42,7 @@ def print_hi(name):
     # c.total()
 
     # Sum of all
+    total_word_count = sum(c.values())
     print(sum(c.values()))
     # print(Counter(word_list).total())
 
@@ -62,58 +72,67 @@ def print_hi(name):
 
     import openpyxl
 
-    from openpyxl import Workbook
-    from openpyxl.utils import get_column_letter
-
-
-    wb = Workbook()
-
-    dest_filename = 'empty_book.xlsx'
-
-    ws1 = wb.active
-    ws1.title = "range names"
-
-    for row in range(1, 40):
-        ...
-        ws1.append(range(600))
-
-    ws2 = wb.create_sheet(title="Pi")
-
-    ws2['F5'] = 3.14
-
-    ws3 = wb.create_sheet(title="Data")
-    for row in range(10, 20):
-        ...
-        for col in range(27, 54):
-            ...
-        _ = ws3.cell(column=col, row=row, value="{0}".format(get_column_letter(col)))
-    print(ws3['AA10'].value)
-
-    wb.save(filename=dest_filename)
-
-from openpyxl import load_workbook
-from openpyxl import load_workbook
-
-wb = load_workbook(filename = 'empty_book.xlsx')
-sheet_ranges = wb['range names']
-print(sheet_ranges['D18'].value)
+#     from openpyxl import Workbook
+#     from openpyxl.utils import get_column_letter
+#
+#
+#     wb = Workbook()
+#
+#     dest_filename = 'empty_book.xlsx'
+#
+#     ws1 = wb.active
+#     ws1.title = "range names"
+#
+#     for row in range(1, 40):
+#         ...
+#         ws1.append(range(600))
+#
+#     ws2 = wb.create_sheet(title="Pi")
+#
+#     ws2['F5'] = 3.14
+#
+#     ws3 = wb.create_sheet(title="Data")
+#     for row in range(10, 20):
+#         ...
+#         for col in range(27, 54):
+#             ...
+#         _ = ws3.cell(column=col, row=row, value="{0}".format(get_column_letter(col)))
+#     print(ws3['AA10'].value)
+#
+#     wb.save(filename=dest_filename)
+#
+# from openpyxl import load_workbook
+# from openpyxl import load_workbook
+#
+# wb = load_workbook(filename = 'empty_book.xlsx')
+# sheet_ranges = wb['range names']
+# print(sheet_ranges['D18'].value)
 # max = ws.max_row
 # for row, entry in enumerate(data1, start=1):
 #     st.cell(row=row + max, column=1, value=entry)
 
-from openpyxl import load_workbook
+    from datetime import date
 
-workbook_name = 'Example3.xlsx'
-wb = load_workbook(workbook_name)
-page = wb.active
+    today = date.today()
 
-# New data to write:
-new_companies = [['name3','address3'], ['name4','address4','tel4','web4']]
+    # dd/mm/YY
+    curr_date = today.strftime("%d/%m/%Y")
+    print("date =", curr_date)
 
-for info in new_companies:
-    page.append(info)
+    from openpyxl import load_workbook
 
-wb.save(filename=workbook_name)
+    workbook_name = 'Example3.xlsx'
+    wb = load_workbook(workbook_name)
+    page = wb.active
+
+    # New data to write:
+    new_data = [[curr_date,total_word_count], ['name4','address4','tel4','web4']]
+
+    for info in new_data:
+        page.append(info)
+
+    wb.save(filename=workbook_name)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
